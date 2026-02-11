@@ -1,4 +1,4 @@
-FROM ubuntu:22.04 as build-runner
+FROM ubuntu:22.04 AS build-runner
 RUN set -xe; \
   apt-get update; \
   apt-get install --no-install-recommends -y wget build-essential cmake automake libtool autoconf gcc g++ ca-certificates;
@@ -20,7 +20,7 @@ RUN set -xe; \
   make -j "$(nproc)"; \
   cp xmrig ..
 
-FROM ubuntu:22.04 as runner
+FROM ubuntu:22.04 AS runner
 RUN set -xe; \
   mkdir /xmrig; \
   apt-get update; \
@@ -34,6 +34,6 @@ ENV WALLET="48GcXANZRm37RCr43BkUo6Ncis5X5E7Kz2BX6kxKhBi1EaLhHkp2p7WJ4GWGX8yPYUZ3
   PATH="/xmrig:${PATH}"
 
 WORKDIR /xmrig
-COPY runme.sh /runme.sh
-RUN chmod +x /runme.sh
-ENTRYPOINT ["/runme.sh"]
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
